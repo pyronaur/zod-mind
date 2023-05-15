@@ -1,6 +1,6 @@
 # 📦 Package Overview
 
-This package provides a set of tools for interacting with the OpenAI GPT-4 API, including error handling and JSON schema validation.
+This package provides a set of tools for interacting with the OpenAI API, including error handling and JSON schema validation.
 
 # 🚀 Getting Started
 
