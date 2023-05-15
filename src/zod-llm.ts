@@ -45,7 +45,7 @@ export class Zod_LLM implements LLM_Zod_Interface {
 			const parsed = response_format.parse(json);
 			return parsed;
 		} catch (e) {
-			throw new Zod_GPT_Error("Parsing error", result, e);
+			throw new Zod_GPT_Error("Parsing error", result, e as any as z.ZodError);
 		}
 
 
