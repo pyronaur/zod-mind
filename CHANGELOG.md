@@ -1,5 +1,11 @@
 # zod-mind
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated the readme documentation and examples
+
 ## 0.0.3
 
 ### Patch Changes
