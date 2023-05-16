@@ -5,6 +5,10 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pyronaur/zod-mind.git"
+	},
 	"scripts": {
 		"build": "tsup index.ts --format cjs,esm --dts",
 		"dev": "tsup index.ts --format cjs,esm --dts --watch --ignore-watch dist",
