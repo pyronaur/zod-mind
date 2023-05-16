@@ -50,12 +50,6 @@ async function fetchCustomers() {
 	}
 }
 ```
-
-
-## 📖 Documentation
-
-### `zodMind(options: Zod_Mind_Options)`
-
 The `zodMind` factory function allows for easy setup of OpenAI with Zod.
 
 It returns either a "self-healing" or "normal" instance based on the `type` field of the options argument. This instance can then be used to communicate with OpenAI.
@@ -66,18 +60,7 @@ Options:
 - `openai`: An object that conforms to `Open_AI_Options`. This object is used to configure the underlying Open AI instance. See [Open AI documentation](https://www.npmjs.com/package/openai) for more available options. This object is passed directly to the underlying Open AI instance.
 
 
-```typescript
-const client = zodMind({
-	type: "self-healing",
-	openai: {
-		model: "gpt-3.5-turbo",
-		max_tokens: 600,
-		temperature: 0.5,
-	}
-});
-```
-
-
+## 📖 Documentation
 ### `Zod_LLM` and `Zod_Healing_LLM`
 
 Both of these classes are responsible for a type-safe chat-like interface with the OpenAI API. They implement `LLM_Zod_Interface` that and use Zod schemas to validate the responses from the model.
