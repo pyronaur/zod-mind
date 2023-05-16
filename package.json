@@ -8,7 +8,7 @@
 	"scripts": {
 		"build": "tsup index.ts --format cjs,esm --dts",
 		"dev": "tsup index.ts --format cjs,esm --dts --watch --ignore-watch dist",
-		"release": "pnpm run build && changeset publish",
+		"publish": "pnpm run build && changeset version && changeset publish",
 		"lint": "tsc",
 		"changelog": "changeset"
 	},
