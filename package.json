@@ -9,7 +9,8 @@
 		"build": "tsup index.ts --format cjs,esm --dts",
 		"dev": "tsup index.ts --format cjs,esm --dts --watch --ignore-watch dist",
 		"release": "pnpm run build && changeset publish",
-		"lint": "tsc"
+		"lint": "tsc",
+		"changelog": "changeset"
 	},
 	"devDependencies": {
 		"@changesets/cli": "^2.26.1",
