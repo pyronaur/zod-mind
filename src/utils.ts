@@ -1,4 +1,4 @@
-import zodToJsonSchema from 'zod-to-json-schema';
+import { zodToJsonSchema } from 'zod-to-json-schema';
 import type { z } from 'zod';
 import type { JSONObject } from './types';
 
