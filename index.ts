@@ -1,4 +1,4 @@
-import * as ZodMind from './src/types';
+import type * as ZodMind from './src/types';
 import { GPT_Client } from './src/gpt-client';
 import { Zod_Healing_LLM } from './src/zod-healing-llm';
 import type { CreateChatCompletionRequest } from 'openai';
@@ -24,6 +24,9 @@ export { Zod_LLM } from './src/zod-llm';
 export { Zod_Healing_LLM } from './src/zod-healing-llm';
 export { zod_to_open_api } from './src/utils';
 
-export default {
-	...ZodMind,
-};
+// Can't wait for TypeScript 5.1 export * types
+export type JSONObject = ZodMind.JSONObject;
+export type JSONValue = ZodMind.JSONValue;
+export type JSONArray = ZodMind.JSONArray;
+export type LLM_Interface = ZodMind.LLM_Interface;
+export type LLM_Zod_Interface = ZodMind.LLM_Zod_Interface;

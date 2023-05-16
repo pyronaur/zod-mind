@@ -1,5 +1,11 @@
 # zod-mind
 
+## 0.0.5
+
+### Patch Changes
+
+- Export ZodMind Types
+
 ## 0.0.4
 
 ### Patch Changes
