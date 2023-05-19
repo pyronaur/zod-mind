@@ -25,8 +25,13 @@ export { Zod_Healing_LLM } from './src/zod-healing-llm';
 export { zod_to_open_api } from './src/utils';
 
 // Can't wait for TypeScript 5.1 export * types
-export type JSONObject = ZodMind.JSONObject;
-export type JSONValue = ZodMind.JSONValue;
-export type JSONArray = ZodMind.JSONArray;
-export type LLM_Interface = ZodMind.LLM_Interface;
-export type LLM_Zod_Interface = ZodMind.LLM_Zod_Interface;
+export type {
+	AnyObject,
+	AnyValue,
+	AnyArray,
+	LLM_Interface,
+	LLM_Zod_Interface,
+} from './src/types';
+
+// tmp
+export { create_logger } from './src/logger';

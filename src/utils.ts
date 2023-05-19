@@ -1,12 +1,12 @@
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import type { z } from 'zod';
-import type { JSONObject } from './types';
+import type { AnyObject, AnyValue } from './types';
 
-export function zod_to_open_api<T extends JSONObject>(schema: z.ZodSchema<T>): JSONObject {
+export function zod_to_open_api<T extends AnyValue>(schema: z.ZodSchema<T>): AnyObject {
 	const json_schema = zodToJsonSchema(schema, {
 		$refStrategy: "none",
 		definitionPath: "schema",
-	}) as JSONObject;
+	}) as AnyObject;
 	delete json_schema["$schema"];
 	return json_schema;
 }

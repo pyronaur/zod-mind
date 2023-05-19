@@ -1,7 +1,7 @@
 import { type z, ZodError } from 'zod';
 
 import { zod_to_open_api, trim_line_whitespace } from './utils';
-import type { JSONObject, LLM_Interface, LLM_Zod_Interface } from './types';
+import type { AnyObject, AnyValue, LLM_Interface, LLM_Zod_Interface } from './types';
 import { mind } from './logger';
 import { Zod_GPT_Error } from './zod-llm-error';
 
@@ -29,7 +29,7 @@ export class Zod_LLM implements LLM_Zod_Interface {
 		return result;
 	}
 
-	public async chat<T extends JSONObject>(message: string, response_format: z.ZodSchema<T>): Promise<T> {
+	public async chat<T extends AnyValue>(message: AnyValue, response_format: z.ZodSchema<T>): Promise<T> {
 
 		const prompt = JSON.stringify({
 			"user_input": message,

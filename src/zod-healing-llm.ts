@@ -1,9 +1,9 @@
 import type { z } from 'zod';
-import type { LLM_Interface } from './types';
+import type { AnyValue, LLM_Interface } from './types';
 
 import { mind } from './logger';
 import { zod_to_open_api } from './utils';
-import type { JSONObject, LLM_Zod_Interface } from './types';
+import type { AnyObject, LLM_Zod_Interface } from './types';
 import { Zod_LLM } from './zod-llm';
 import { Zod_GPT_Error } from './zod-llm-error';
 
@@ -15,7 +15,7 @@ export class Zod_Healing_LLM implements LLM_Zod_Interface {
 		this.zod_client = new Zod_LLM(this.client, system_message);
 	};
 
-	public async chat<T extends JSONObject>(message: string, response_schema: z.ZodSchema<T>): Promise<T> {
+	public async chat<T extends AnyValue>(message: AnyValue, response_schema: z.ZodSchema<T>): Promise<T> {
 
 		try {
 			return await this.zod_client.chat(message, response_schema);
