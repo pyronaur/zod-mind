@@ -9,7 +9,7 @@ const openai = new OpenAIApi(configuration);
 
 type GPT_Config = Omit<CreateChatCompletionRequest, "messages">;
 type Message = {
-	role: 'user' | 'system',
+	role: 'user' | 'system' | 'assistant',
 	content: string,
 };
 
@@ -32,7 +32,14 @@ export class GPT_Client implements LLM_Interface {
 			content: message,
 		});
 
-		return this.send(this.history);
+		const response = await this.send(this.history);
+
+		this.history.push({
+			role: 'assistant',
+			content: response,
+		});
+
+		return response;
 	}
 
 	private async send(messages: Message[]): Promise<string> {
