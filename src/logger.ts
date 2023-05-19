@@ -16,15 +16,15 @@ export function inspect(...args: unknown[]) {
 }
 
 function named_logger(level: string, name: string) {
-	return function (main: string, ...args: unknown[]) {
-		let message = pc.gray(`${name}(${level}):`);
-		if (typeof args[0] === "string") {
-			message += " " + pc.underline(pc.bold(main));
+	return function (content: string, ...args: unknown[]) {
+		const whoami = pc.gray(`${name}(${level}):`);
+		if (typeof content === "string") {
+			content = pc.underline(pc.bold(content));
 		}
 		if (args.length > 0) {
-			console.log('\n', message, '\n', ...inspect(...args), '\n');
+			console.log(`\n${whoami} ${content}\n`, ...inspect(...args));
 		} else {
-			console.log(message);
+			console.log(`${whoami} ${content}`, ...args);
 		}
 
 	}
