@@ -1,5 +1,11 @@
 # zod-mind
 
+## 0.1.0
+
+### Minor Changes
+
+- Keep track of asssitant responses
+
 ## 0.0.5
 
 ### Patch Changes
