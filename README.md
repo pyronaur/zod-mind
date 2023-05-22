@@ -92,11 +92,10 @@ const client = new GPT_Client({
 	model: "gpt-3.5-turbo",
 	max_tokens: 900,
 	temperature: 0.5,
-}, 'sk-WuBbaLuBbAdUBDUBmEanSIAMInGREaTPa1nplsHeLpME');
-```
+}, 'sk-WUBbaLuBbAdUBDUBmEanSIAMInGREaTPAInp1she1PME');
 ```
 
-Please replace `'your-api-key-here'` with your actual API key. Do not expose this key publicly. It's usually a good idea to keep it in an environment variable or some form of secure secret storage.
+Please replace `'sk-WUBbaLuBbAdUBDUBmEanSIAMInGREaTPAInp1she1PME'` with your actual API key. Do not expose this key publicly. It's usually a good idea to keep it in an environment variable or some form of secure secret storage.
 
 ##### Typical interaction
 

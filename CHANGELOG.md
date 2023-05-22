@@ -1,5 +1,11 @@
 # zod-mind
 
+## 0.2.2
+
+### Patch Changes
+
+- Fix the documentation
+
 ## 0.2.1
 
 ### Patch Changes
