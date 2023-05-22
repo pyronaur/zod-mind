@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Outcome } from './utils';
 
 export type AnyValue = string | number | boolean | AnyArray | AnyObject;
 export type AnyArray = AnyValue[];
@@ -6,6 +7,10 @@ export type AnyObject = {
 	[key: string]: AnyValue;
 };
 
+export type Problem = {
+	message: string;
+	meta: AnyValue;
+}
 
 export interface LLM_Interface {
 	set_system_message(message: string): void;
@@ -13,7 +18,15 @@ export interface LLM_Interface {
 	incognito_chat(message: string, system?: string): Promise<string>;
 }
 
-export type LLM_Zod_Interface = {
-	chat: <T extends AnyObject>(message: string, schema: z.ZodSchema<T>) => Promise<T>;
-}
+export type LLM_Error =
+	{ type: 'schema' }
+	|
+	{
+		type: 'parse'
+		value: string,
+		error: unknown,
+	};
 
+export type LLM_Zod_Interface = {
+	chat: <T extends AnyObject>(message: string, schema: z.ZodSchema<T>) => Promise<Outcome<T, LLM_Error>>;
+}

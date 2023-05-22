@@ -1,21 +1,18 @@
-import type * as ZodMind from './src/types';
-import { GPT_Client } from './src/gpt-client';
+import { GPT_Client, GPT_Request_Config } from './src/gpt-client';
 import { Zod_Healing_LLM } from './src/zod-healing-llm';
-import type { CreateChatCompletionRequest } from 'openai';
 import { Zod_LLM } from './src/zod-llm';
 
-type Open_AI_Options = Omit<CreateChatCompletionRequest, "messages">;
 type Zod_Mind_Options = {
 	type: "self-healing" | "normal",
-	openai: Open_AI_Options,
+	openai: GPT_Request_Config,
 }
 
 export function zodMind(options: Zod_Mind_Options) {
-	const client = new GPT_Client(options.openai);
+	const llm = new GPT_Client(options.openai);
 	if (options.type === "self-healing") {
-		return new Zod_Healing_LLM(client);
+		return new Zod_Healing_LLM(llm);
 	} else {
-		return new Zod_LLM(client);
+		return new Zod_LLM(llm);
 	}
 }
 

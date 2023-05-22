@@ -2,11 +2,10 @@ import { zodMind } from 'zod-mind';
 import { z } from 'zod';
 
 const options = {
-	type: "self-healing",
+	type: "normal",
 	openai: {
 		model: "gpt-3.5-turbo",
-		max_tokens: 1000,
-		temperature: 0.991,
+		temperature: 0,
 	}
 }
 
@@ -21,7 +20,7 @@ const schema = z.object({
 
 async function fetchCustomers() {
 	try {
-		const result = await client.chat("10 fictional characters from popular sci-fi books.", schema);
+		const result = await client.chat("10 fictional characters from popular sci-fi books as customers.", schema);
 		console.log(result);
 	} catch (error) {
 		console.error(error);
