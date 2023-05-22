@@ -83,15 +83,20 @@ This method sends a message to the model and receives a response, ensuring that 
 
 ### Default LLM Interface: `GPT_Client`
 
-This is a wrapper for the [OpenAI package](https://www.npmjs.com/package/openai) package. It implements `LLM_Interface` and can be used directly if you don't need the type-safe interface provided by `Zod_LLM` and `Zod_Healing_LLM`.
+This is a standalone client for interacting with the OpenAI API. It implements `LLM_Interface` and can be used directly if you don't need the type-safe interface provided by `Zod_LLM` and `Zod_Healing_LLM`.
+
+The `GPT_Client` class accepts `api_key` as the second parameter to the constructor if the `OPENAI_API_KEY` environment variable is not set. This `api_key` is the secret key you receive from OpenAI when you sign up for API access.
 
 ```typescript
 const client = new GPT_Client({
 	model: "gpt-3.5-turbo",
-	max_tokens: 600,
+	max_tokens: 900,
 	temperature: 0.5,
-});
+}, 'sk-WuBbaLuBbAdUBDUBmEanSIAMInGREaTPa1nplsHeLpME');
 ```
+```
+
+Please replace `'your-api-key-here'` with your actual API key. Do not expose this key publicly. It's usually a good idea to keep it in an environment variable or some form of secure secret storage.
 
 ##### Typical interaction
 

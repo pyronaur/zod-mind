@@ -41,55 +41,11 @@ type ChatResponse = {
 	};
 }
 
-async function openai_chat(messages: Message[], config: GPT_Request_Config = {}, api_key?: string): Promise<ChatResponse> {
-	const url = 'https://api.openai.com/v1/chat/completions';
-	const headers = {
-		'Content-Type': 'application/json',
-		'Authorization': `Bearer ${api_key || process.env.OPENAI_API_KEY}`
-	};
-
-	const body = {
-		model: config.model || 'gpt-3.5-turbo',
-		messages: messages,
-		...config
-	};
-
-	try {
-		const res = await fetch(url, {
-			method: 'POST',
-			headers: headers,
-			keepalive: false,
-			body: JSON.stringify(body),
-		});
-
-		if (!res.ok) {
-			switch (res.status) {
-				case 429:
-					throw new Error('Error 429: Too many requests. Please slow down your request rate.');
-				case 503:
-				case 500:
-					throw new Error('Error 500: Server error. Please try again later.');
-				case 400:
-					throw new Error('Error 400: Bad request. Please check your request data.');
-				default:
-					throw new Error(`Error ${res.status}: ${res.statusText}`);
-			}
-		}
-
-		const data: ChatResponse = await res.json();
-		return data;
-	} catch (err) {
-		console.error(err);
-		throw err;
-	}
-}
-
-
 export class GPT_Client implements LLM_Interface {
 
 	private history: Message[] = [];
 
-	constructor (protected options: GPT_Request_Config) { }
+	constructor (protected options: GPT_Request_Config, private api_key?: string) { }
 
 	public set_system_message(message: string): void {
 		this.history.push({
@@ -114,9 +70,52 @@ export class GPT_Client implements LLM_Interface {
 		return response;
 	}
 
+	private async openai_chat(messages: Message[], config: GPT_Request_Config): Promise<ChatResponse> {
+		const url = 'https://api.openai.com/v1/chat/completions';
+		const headers = {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${this.api_key || process.env.OPENAI_API_KEY}`
+		};
+
+		const body = {
+			model: config.model || 'gpt-3.5-turbo',
+			messages: messages,
+			...config
+		};
+
+		try {
+			const res = await fetch(url, {
+				method: 'POST',
+				headers: headers,
+				keepalive: false,
+				body: JSON.stringify(body),
+			});
+
+			if (!res.ok) {
+				switch (res.status) {
+					case 429:
+						throw new Error('Error 429: Too many requests. Please slow down your request rate.');
+					case 503:
+					case 500:
+						throw new Error('Error 500: Server error. Please try again later.');
+					case 400:
+						throw new Error('Error 400: Bad request. Please check your request data.');
+					default:
+						throw new Error(`Error ${res.status}: ${res.statusText}`);
+				}
+			}
+
+			const data: ChatResponse = await res.json();
+			return data;
+		} catch (err) {
+			console.error(err);
+			throw err;
+		}
+	}
+
 	private async send(messages: Message[]): Promise<string> {
 		try {
-			const response = await openai_chat(messages, this.options);
+			const response = await this.openai_chat(messages, this.options);
 			if (!response.choices[0]?.message?.content) {
 				mind.problem("GPT Response is empty:", response);
 				return '';
