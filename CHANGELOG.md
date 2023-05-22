@@ -1,5 +1,15 @@
 # zod-mind
 
+## 0.2.0
+
+### Minor Changes
+
+- 2828b23: Refactored prompt input and output
+
+### Patch Changes
+
+- a0af650: Improve self healing
+
 ## 0.1.0
 
 ### Minor Changes
