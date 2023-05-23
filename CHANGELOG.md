@@ -1,5 +1,11 @@
 # zod-mind
 
+## 0.3.0
+
+### Minor Changes
+
+- Removed CJS support. Zod-Mind is now ESM only.
+
 ## 0.2.2
 
 ### Patch Changes
