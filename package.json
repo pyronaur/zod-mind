@@ -10,8 +10,8 @@
 		"url": "https://github.com/pyronaur/zod-mind.git"
 	},
 	"scripts": {
-		"build": "tsup index.ts --format cjs,esm --dts",
-		"dev": "tsup index.ts --format cjs,esm --dts --watch --ignore-watch dist",
+		"build": "tsup index.ts --format esm --dts",
+		"dev": "tsup index.ts --format esm --dts --watch --ignore-watch dist",
 		"release": "pnpm run build && changeset version && changeset publish",
 		"lint": "tsc",
 		"publish": "changeset && changeset version"
