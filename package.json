@@ -1,7 +1,7 @@
 {
 	"name": "zod-mind",
 	"license": "MIT",
-	"version": "0.3.1",
+	"version": "0.3.2",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"type": "module",
@@ -13,7 +13,8 @@
 		"build": "tsup index.ts --format esm --dts",
 		"dev": "tsup index.ts --format esm --dts --watch --ignore-watch dist",
 		"release": "npm run build && changeset version && changeset publish",
-		"lint": "tsc"
+		"lint": "tsc",
+		"publish": "changeset && changeset version"
 	},
 	"devDependencies": {
 		"@changesets/cli": "^2.26.1",

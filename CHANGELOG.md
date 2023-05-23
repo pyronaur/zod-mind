@@ -1,5 +1,11 @@
 # zod-mind
 
+## 0.3.2
+
+### Patch Changes
+
+- Testing GitHub actions
+
 ## 0.3.1
 
 ### Patch Changes
