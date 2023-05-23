@@ -1,8 +1,6 @@
-import pc from 'picocolors';
 import * as util from 'util';
 
 export function inspect(...args: unknown[]) {
-
 	return args.map(arg => {
 		try {
 			if (typeof arg === "string") {
@@ -17,10 +15,7 @@ export function inspect(...args: unknown[]) {
 
 function named_logger(level: string, name: string) {
 	return function (content: string, ...args: unknown[]) {
-		const whoami = pc.gray(`${name}(${level}):`);
-		if (typeof content === "string") {
-			content = pc.underline(pc.bold(content));
-		}
+		const whoami = `${name}(${level}):`;
 		if (args.length > 0) {
 			console.log(`\n${whoami} ${content}\n`, ...inspect(...args));
 		} else {
@@ -34,9 +29,9 @@ type LoggerLevels = 'debug' | 'info' | 'problem';
 
 export function create_logger(name: string, levels: LoggerLevels[] = ['debug', 'info']) {
 	const loggers: { [K in LoggerLevels]: ReturnType<typeof named_logger> } = {
-		debug: named_logger('debug', pc.white(name)),
-		info: named_logger('info', pc.white(name)),
-		problem: named_logger('problem', pc.red(name)),
+		debug: named_logger('debug', name),
+		info: named_logger('info', name),
+		problem: named_logger('problem', name),
 	};
 
 	const logger: typeof loggers = {
