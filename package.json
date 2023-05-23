@@ -12,9 +12,9 @@
 	"scripts": {
 		"build": "tsup index.ts --format esm --dts",
 		"dev": "tsup index.ts --format esm --dts --watch --ignore-watch dist",
-		"release": "npm run build && changeset version && changeset publish",
 		"lint": "tsc",
-		"publish": "changeset && changeset version"
+		"publish": "changeset && changeset version",
+		"gh-action-release": "npm run build && changeset version && changeset publish"
 	},
 	"devDependencies": {
 		"@changesets/cli": "^2.26.1",
