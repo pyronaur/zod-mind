@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 import { Outcome } from './utils';
 
 export type AnyValue = string | number | boolean | AnyArray | AnyObject;
