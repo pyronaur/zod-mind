@@ -10,5 +10,6 @@
 		"noUncheckedIndexedAccess": true,
 		"noEmit": true,
 		"allowSyntheticDefaultImports": true,
+		"noUnusedLocals": true,
 	}
 }

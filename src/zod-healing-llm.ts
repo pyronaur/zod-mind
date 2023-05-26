@@ -2,7 +2,7 @@ import type { z } from 'zod';
 import type { AnyValue, LLM_Error, LLM_Interface } from './types';
 
 import { mind } from './logger';
-import { Outcome, problem, success, trim_line_whitespace, zod_to_open_api } from './utils';
+import { Outcome, problem, success, zod_to_open_api } from './utils';
 import type { LLM_Zod_Interface } from './types';
 import { Zod_LLM } from './zod-llm';
 
