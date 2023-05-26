@@ -31,4 +31,4 @@ export type {
 } from './src/types';
 
 // tmp
-export { create_logger } from './src/logger';
+export { nLogs } from './src/logger';
