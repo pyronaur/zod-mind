@@ -1,4 +1,4 @@
-import { type z, ZodError } from 'zod';
+import type { z } from 'zod';
 
 import { zod_to_open_api, trim_line_whitespace, problem, success, Outcome } from './utils';
 import type { AnyValue, LLM_Error, LLM_Interface, LLM_Zod_Interface } from './types';
