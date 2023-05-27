@@ -23,6 +23,7 @@
 		"typescript": "^4.9.5"
 	},
 	"dependencies": {
+		"logthing": "^0.1.1",
 		"zod": "^3.21.4",
 		"zod-to-json-schema": "^3.21.1"
 	}

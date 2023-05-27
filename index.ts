@@ -29,6 +29,3 @@ export type {
 	LLM_Interface,
 	LLM_Zod_Interface,
 } from './src/types';
-
-// tmp
-export { nLogs } from './src/logger';
