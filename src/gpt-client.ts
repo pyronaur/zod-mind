@@ -1,5 +1,7 @@
-import { mind } from './logger';
+import { logthing } from 'logthing';
 import { LLM_Interface } from './types';
+
+const log = logthing('GPT Client', ['verbose', 'debug', 'info', 'problem']);
 
 type Role = 'system' | 'user' | 'assistant';
 
@@ -45,7 +47,7 @@ export class GPT_Client implements LLM_Interface {
 
 	private history: Message[] = [];
 
-	constructor (protected options: GPT_Request_Config, private api_key?: string) { }
+	constructor (protected options: GPT_Request_Config = {}, private api_key?: string) { }
 
 	public set_system_message(message: string): void {
 		this.history.push({
@@ -117,10 +119,10 @@ export class GPT_Client implements LLM_Interface {
 		try {
 			const response = await this.openai_chat(messages, this.options);
 			if (!response.choices[0]?.message?.content) {
-				mind.problem("GPT Response is empty:", response);
+				log.problem("GPT Response is empty:", response);
 				return '';
 			}
-			mind.debug("GPT Response:", response.choices[0].message?.content);
+			log.debug("GPT Response:", response.choices[0].message?.content);
 			return response.choices[0].message?.content;
 		} catch (e) {
 			console.error(e);
@@ -144,7 +146,13 @@ export class GPT_Client implements LLM_Interface {
 				content: system_message,
 			});
 		}
+
+		log.info('Sending incognito message...')
+			.debug(message)
+			.verbose(messages);
+
 		const result = await this.send(messages);
+
 		return result;
 	}
 }

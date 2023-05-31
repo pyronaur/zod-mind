@@ -1,3 +1,3 @@
-import { Logthing } from 'logthing';
+import { logthing } from 'logthing';
 
-export const mind = new Logthing('Zod Mind', ['debug', 'info', 'problem']).get_interface();
+export const mind = logthing('Zod Mind', ['debug', 'info', 'problem']);
