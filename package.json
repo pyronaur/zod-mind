@@ -1,7 +1,7 @@
 {
 	"name": "zod-mind",
 	"license": "MIT",
-	"version": "0.3.2",
+	"version": "0.3.3",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"type": "module",
@@ -26,7 +26,6 @@
 	"dependencies": {
 		"logthing": "^1.1.2",
 		"zod": "^3.21.4",
-		"zod-mind": "^0.3.2",
 		"zod-to-json-schema": "^3.21.1"
 	}
 }
