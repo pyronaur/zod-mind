@@ -1,7 +1,7 @@
-import { logthing } from 'logthing';
+import { client } from './logger';
 import { LLM_Interface } from './types';
 
-const log = logthing('GPT Client', ['verbose', 'debug', 'info', 'problem']);
+
 
 type Role = 'system' | 'user' | 'assistant';
 
@@ -119,10 +119,10 @@ export class GPT_Client implements LLM_Interface {
 		try {
 			const response = await this.openai_chat(messages, this.options);
 			if (!response.choices[0]?.message?.content) {
-				log.problem("GPT Response is empty:", response);
+				client.problem("GPT Response is empty:", response);
 				return '';
 			}
-			log.debug("GPT Response:", response.choices[0].message?.content);
+			client.debug("GPT Response:", response.choices[0].message?.content);
 			return response.choices[0].message?.content;
 		} catch (e) {
 			console.error(e);
@@ -147,7 +147,7 @@ export class GPT_Client implements LLM_Interface {
 			});
 		}
 
-		log.info('Sending incognito message...')
+		client.info('Sending incognito message...')
 			.debug(message)
 			.verbose(messages);
 
