@@ -14,7 +14,7 @@ NEVER insert text before or after your JSON response.
 Your response should always be formatted as follows:
 \`\`\`
 {
-	"__AI_RESPONSE": <<JSON response that passes "json_schema" validation>>
+	"AI_RESPONSE": {{JSON response that passes "json_schema" validation}}"
 }
 \`\`\`
 `);
@@ -48,7 +48,7 @@ export class Zod_LLM implements LLM_Zod_Interface {
 
 		try {
 			const json = JSON.parse(result);
-			const parsed = zod_schema.parse(json.__AI_RESPONSE);
+			const parsed = zod_schema.parse(json.AI_RESPONSE);
 			return success(parsed);
 		} catch (e) {
 			return problem("Zod_LLM failed to parse LLM Response JSON.", {
