@@ -1,11 +1,14 @@
 import { zodMind } from 'zod-mind';
 import { z } from 'zod';
+import { logthing } from 'logthing';
+
+const app = logthing("App");
 
 const options = {
 	type: "normal",
 	openai: {
-		model: "gpt-3.5-turbo",
-		temperature: 0,
+		model: "gpt-4",
+		temperature: 0.77,
 	}
 }
 
@@ -20,13 +23,14 @@ const schema = z.object({
 
 async function fetchCustomers() {
 	try {
-		const result = await client.chat("10 fictional characters from popular sci-fi books as customers.", schema);
-		console.log(result);
+		const result = await client.chat("3 fictional characters from popular sci-fi books as customers.", schema);
+		app.log(result);
+		return result;
 	} catch (error) {
-		console.error(error);
+		app.error(error);
 	}
 }
 
 (async () => {
-	console.log(await fetchCustomers());
+	app.log(await fetchCustomers());
 })();
