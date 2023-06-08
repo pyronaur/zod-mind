@@ -1,5 +1,11 @@
 # zod-mind
 
+## 0.3.4
+
+### Patch Changes
+
+- Fixed an issue with GPT4
+
 ## 0.3.3
 
 ### Patch Changes
