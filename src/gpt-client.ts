@@ -110,7 +110,7 @@ export class GPT_Client implements LLM_Interface {
 			const data: ChatResponse = await res.json();
 			return data;
 		} catch (err) {
-			console.error(err);
+			console.error("Failed to parse the response from OpenAI", err);
 			throw err;
 		}
 	}
