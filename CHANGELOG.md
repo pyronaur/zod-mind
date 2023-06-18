@@ -1,5 +1,11 @@
 # zod-mind
 
+## 0.3.5
+
+### Patch Changes
+
+- Allow AnyValue in Zod LLM Interface
+
 ## 0.3.4
 
 ### Patch Changes
