@@ -28,5 +28,5 @@ export type LLM_Error =
 	};
 
 export type LLM_Zod_Interface = {
-	chat: <T extends AnyObject>(message: string, schema: z.ZodSchema<T>) => Promise<Outcome<T, LLM_Error>>;
+	chat: <T extends AnyObject>(message: AnyValue, schema: z.ZodSchema<T>) => Promise<Outcome<T, LLM_Error>>;
 }
