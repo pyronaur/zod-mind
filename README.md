@@ -1,6 +1,6 @@
 # 🧠 Zod Mind
 
-TypeScript-first schema validated AI chat interface library.
+TypeScript-first schema validated AI chat interface library with OpenAI interface and exponential-backoff built-in.
 
 This package provides a set of tools for interacting with the OpenAI API using type-safe schemas validated by [Zod](https://zod.dev).
 

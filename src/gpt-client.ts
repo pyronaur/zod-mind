@@ -1,3 +1,4 @@
+import pRetry from 'p-retry';
 import { client } from './logger';
 import { LLM_Interface } from './types';
 
@@ -86,12 +87,22 @@ export class GPT_Client implements LLM_Interface {
 		};
 
 		try {
-			const res = await fetch(url, {
-				method: 'POST',
-				headers: headers,
-				keepalive: false,
-				body: JSON.stringify(body),
-			});
+			const res = await pRetry(
+				() => fetch(url, {
+					method: 'POST',
+					headers: headers,
+					keepalive: false,
+					body: JSON.stringify(body)
+				}),
+				{
+					retries: 10,
+					onFailedAttempt: (error) => {
+						client
+							.retry(`${error.attemptNumber}/10 Failed to get a response from OpenAI. `)
+							.debug(error);
+					}
+				}
+			);
 
 			if (!res.ok) {
 				switch (res.status) {
