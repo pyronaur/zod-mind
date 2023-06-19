@@ -1,5 +1,11 @@
 # zod-mind
 
+## 0.4.0
+
+### Minor Changes
+
+- Add backoff
+
 ## 0.3.5
 
 ### Patch Changes
