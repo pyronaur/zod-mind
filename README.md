@@ -15,7 +15,7 @@ To install the package, run the following command in your terminal:
 npm install zod-mind
 ```
 
-### Usage
+## Usage
 
 `zodMind()` is the primary function for interacting with the Zod Mind library,
 which provides a structured interface to the OpenAI API.
@@ -53,7 +53,7 @@ to store it in an environment variable or a secure secret storage.
 **Environment Variable**
 Zod Mind is going to attempt to read `OPENAI_API_KEY` from your environment if no key is provided to the `zodMind()` function.
 
-## Structured Chat
+### Structured Chat
 
 Structured chat refers to an organized and formatted way of communicating with
 the AI with a predefined schema to guide AI's responses. It allows you to use a chat interface that
@@ -75,7 +75,7 @@ const results = await client.structured_chat( "What is the meaning of life?", z.
 The method returns a structured response from the AI that matches the given Zod
 schema or it will throw a validation error.
 
-## Invoke Functions
+### Invoke Functions
 
 The `invoke` method allows the AI to call a function from a predefined list of
 functions based on a given message.
@@ -125,7 +125,7 @@ If you want to force the AI to call a specific function, you can do so by passin
 const result = await client.invoke( "Random number between 1 and 42", functions, "random_number" );
 ```
 
-#### Simple Chat
+### Simple Chat
 
 Even though this library is designed with type-safety in mind, you can just call
 simple `chat` methods without type safety if you need to.
@@ -134,7 +134,7 @@ simple `chat` methods without type safety if you need to.
 const result = await client.chat( "What is the answer to life?" );
 ```
 
-#### System Message
+### System Message
 If you want to customize the system message, you can do so using the `set_system_message()`
 method:
 
