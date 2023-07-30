@@ -10,12 +10,13 @@ type GPT_Function = {
 	schema: z.ZodObject<any>
 }
 
-type GPT_Return_Function<T extends Record<string, GPT_Function>> = {
-	[K in keyof T]: {
-		name: K,
-		arguments: z.infer<T[K]['schema']>,
+type GPT_Return_Function<T extends Record<string, GPT_Function>, K extends keyof T | 'auto'> = {
+	[Key in keyof T]: {
+		name: Key,
+		arguments: z.infer<T[Key]['schema']>,
 	}
-}[keyof T]
+}[K extends 'auto' ? keyof T : K];
+
 
 export class Zod_GPT {
 
@@ -42,8 +43,7 @@ export class Zod_GPT {
 	 * @param functions
 	 * @param function_call
 	 */
-	public async invoke<T extends Record<string, GPT_Function>>( message: string, functions: T, function_call = 'auto' ): Promise<GPT_Return_Function<T>> {
-
+	public async invoke<T extends Record<string, GPT_Function>, K extends keyof T>( message: string, functions: T, function_call?: K): Promise<GPT_Return_Function<T, K>> {
 		const additional_config = {
 			functions: Object.entries( functions ).map( ( [ name, fn ] ) => {
 				return {
@@ -53,7 +53,7 @@ export class Zod_GPT {
 				}
 			} ),
 			function_call: function_call === 'auto' ? ( 'auto' as 'auto' ) : {
-				name: function_call,
+				name: function_call as string,
 			}
 		}
 
@@ -64,13 +64,14 @@ export class Zod_GPT {
 				const func_name = result.data.name;
 				if ( !( func_name in functions ) ) throw new Error( `Could not find function ${ func_name }` );
 
-				const func = functions[ func_name ] as T[ keyof T ];
-				const func_schema = func.schema;
+				const func = functions[ func_name ];
+				const func_schema = func!.schema;
 
 				return {
 					name: func_name,
 					arguments: func_schema.parse( JSON.parse( result.data.arguments ) ),
-				};
+				} as GPT_Return_Function<T, K>;
+
 			} else {
 				throw new Error( "Expected a function call response, but got a message." );
 			}
@@ -101,7 +102,7 @@ export class Zod_GPT {
 			}
 		};
 
-		const result = await this.invoke( message, functions );
+		const result = await this.invoke( message, functions, 'structured_response' );
 		mind.debug( "Result:", result );
 		return result.arguments;
 	}

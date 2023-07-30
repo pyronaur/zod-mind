@@ -41,6 +41,11 @@ async function fetchCustomers() {
 
 		const hats = await client.invoke( "What are their favorite hats?", functions );
 		app.info( `GPT is calling function "${ hats.name }"` ).info( "With Arguments:", hats.arguments );
+
+		const hats_for_sure = await client.invoke( "What are their favorite hats?", functions, 'favorite_hats' );
+		app.info( `I forced GPT to call "favorite_hats"` )
+			// Notice that because we forced which function to call, we don't need to check the arguments.
+			.info( "These are the hats:", hats_for_sure.arguments.customer_hats );
 	} catch ( error ) {
 		app.error( error );
 	}
