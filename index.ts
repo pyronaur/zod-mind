@@ -19,6 +19,4 @@ export type {
 	AnyObject,
 	AnyValue,
 	AnyArray,
-	LLM_Interface,
-	LLM_Zod_Interface,
 } from './src/types';

@@ -1,9 +1,4 @@
-import {
-	problem,
-	success,
-	trim_line_whitespace,
-	zod_to_open_api
-} from './utils';
+import { trim_line_whitespace, zod_to_open_api } from './utils';
 import { mind } from './logger';
 import { GPT_Client } from "./GPT_Client";
 import { z } from "zod";
@@ -17,16 +12,22 @@ export class Zod_GPT {
 		this.client.set_system_message( system_message );
 	};
 
+	/**
+	 * Chat with the GPT and parse the response with Zod.
+	 * @param message - GPT Instructions
+	 * @param zod_schema - Response Format
+	 */
 	public async chat<T extends AnyValue>( message: string, zod_schema: z.ZodSchema<T> ) {
 		mind.debug( "Prompt:", message );
+
+		const structured_response = {
+			name: 'structured_response',
+			description: 'Format your response as a function call',
+			parameters: zod_to_open_api( zod_schema ),
+		}
+
 		const result = await this.client.chat( message, {
-			functions: [
-				{
-					name: 'structured_response',
-					description: 'Deliver the response in a formatted function',
-					parameters: zod_to_open_api( zod_schema ),
-				}
-			],
+			functions: [structured_response],
 			function_call: {
 				name: 'structured_response',
 			},
@@ -34,25 +35,22 @@ export class Zod_GPT {
 
 		mind.debug( "Result:", result );
 		try {
-			if ( result.type === "message" ) {
-				return success( result.data );
-			}
+
 			if ( result.type === "function_call" ) {
 				const json = JSON.parse( result.data.arguments );
-				const parsed = zod_schema.parse( json );
-				return success( {
-					function: result.data.name,
-					data: parsed,
-				} );
+				return zod_schema.parse( json );
+			} else {
+				throw new Error( "Expected a function call response, but got a message." );
 			}
 
 
 		} catch ( e ) {
-			return problem( "Zod_LLM failed to parse LLM Response JSON.", {
+			mind.problem( "Zod_LLM failed to parse LLM Response JSON.", {
 				type: 'parse',
 				value: result,
 				error: e,
-			}, e );
+			} );
+			throw e;
 		}
 
 

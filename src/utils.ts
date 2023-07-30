@@ -16,27 +16,3 @@ export function trim_line_whitespace( content: string ): string {
 		.map( line => line.trim() )
 		.join( "\n" );
 }
-
-interface Success<T> {
-	status: 'success';
-	value: T;
-}
-
-interface Problem<TProblem> {
-	status: 'problem';
-	message: string;
-	error: TProblem;
-}
-
-export type Outcome<T, TProblem = unknown> = Success<T> | Problem<TProblem>;
-
-export function success<T>( value: T ): Success<T> {
-	return { status: 'success', value };
-}
-
-export function problem<TProblem>( message: string, error: TProblem, log?: unknown ): Problem<TProblem> {
-	if ( log ) {
-		console.error( log );
-	}
-	return { status: 'problem', message, error };
-}
