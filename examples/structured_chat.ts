@@ -14,7 +14,7 @@ const fictional_characters = z.object( {
 } );
 
 const favorite_hats = z.object( {
-	event_name: z.string().describe("Which event are the characters attending?"),
+	event_name: z.string().describe( "Which event are the characters attending?" ),
 	customer_hats: z.array(
 		z.object( {
 			name: z.string(),
@@ -35,6 +35,6 @@ async function fetchCustomers() {
 	}
 }
 
-(async () => {
+( async () => {
 	await fetchCustomers();
-})();
+} )();

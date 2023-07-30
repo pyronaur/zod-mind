@@ -24,6 +24,10 @@ export class Zod_GPT {
 	};
 
 
+	/**
+	 * Simple chat interface without structured data or function calls.
+	 * @param message
+	 */
 	public async chat( message: string ) {
 		mind.debug( "Prompt:", message );
 		const result = await this.client.chat( message );
@@ -31,6 +35,13 @@ export class Zod_GPT {
 		return result;
 	}
 
+	/**
+	 * Let GPT Invoke a function from a list of functions based on the given message.
+	 *
+	 * @param message
+	 * @param functions
+	 * @param function_call
+	 */
 	public async invoke<T extends Record<string, GPT_Function>>( message: string, functions: T, function_call = 'auto' ): Promise<GPT_Return_Function<T>> {
 
 		const additional_config = {
@@ -80,7 +91,7 @@ export class Zod_GPT {
 	 * @param message - GPT Instructions
 	 * @param zod_schema - Response Format
 	 */
-	public async structured_chat<T extends z.ZodObject<any>>( message: string, zod_schema: T ): Promise<z.infer<T>> {
+	public async structured_chat<T extends z.ZodObject<any>>( message: string, zod_schema: T ) {
 		mind.debug( "Prompt:", message );
 
 		const functions = {
