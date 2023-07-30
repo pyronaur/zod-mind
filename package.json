@@ -27,6 +27,6 @@
     "logthing": "^1.1.2",
     "p-retry": "^5.1.2",
     "zod": "^3.21.4",
-    "zod-to-json-schema": "^3.21.1"
+    "zod-to-json-schema": "^3.21.4"
   }
 }

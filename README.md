@@ -134,9 +134,9 @@ client.chat("What is the custom LLM answer to life?");
 The main components of the package are organized as follows:
 
 - `types.ts`: Defines types and interfaces used in the package.
-- `gpt-client.ts`: Implements the GPT client for interacting with the OpenAI GPT API.
+- `GPT_Client.ts`: Implements the GPT client for interacting with the OpenAI GPT API.
 - `utils.ts`: Contains utility functions.
-- `zod-llm.ts`: Implements the Zod Low Level Model (LLM).
+- `Zod_GPT.ts`: Implements the Zod Low Level Model (LLM).
 - `zod-healing-llm.ts`: Implements a healing LLM that can recover from errors.
 - `zod-llm-error.ts`: Defines a specific error type for Zod LLM.
 

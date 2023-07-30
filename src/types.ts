@@ -14,6 +14,7 @@ export type Problem = {
 
 export interface LLM_Interface {
 	set_system_message(message: string): void;
+	update_options(options: AnyObject): void;
 	chat(message: string): Promise<string>;
 	incognito_chat(message: string, system?: string): Promise<string>;
 }

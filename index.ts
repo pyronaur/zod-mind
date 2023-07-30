@@ -1,24 +1,17 @@
-import { GPT_Client, GPT_Request_Config } from './src/gpt-client';
-import { Zod_Healing_LLM } from './src/zod-healing-llm';
-import { Zod_LLM } from './src/zod-llm';
+import { GPT_Client, GPT_Request_Config } from './src/GPT_Client';
+import { Zod_GPT } from './src/Zod_GPT';
 
 type Zod_Mind_Options = {
-	type: "self-healing" | "normal",
 	openai: GPT_Request_Config,
 }
 
 export function zodMind(options: Zod_Mind_Options) {
-	const llm = new GPT_Client(options.openai);
-	if (options.type === "self-healing") {
-		return new Zod_Healing_LLM(llm);
-	} else {
-		return new Zod_LLM(llm);
-	}
+	const llm = new GPT_Client(options?.openai);
+	return new Zod_GPT(llm);
 }
 
-export { GPT_Client } from './src/gpt-client';
-export { Zod_LLM } from './src/zod-llm';
-export { Zod_Healing_LLM } from './src/zod-healing-llm';
+export { GPT_Client } from './src/GPT_Client';
+export { Zod_GPT } from './src/Zod_GPT';
 export { zod_to_open_api } from './src/utils';
 
 // Can't wait for TypeScript 5.1 export * types
