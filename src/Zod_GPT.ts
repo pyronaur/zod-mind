@@ -52,7 +52,7 @@ export class Zod_GPT {
 					parameters: zod_to_open_api( fn.schema ),
 				}
 			} ),
-			function_call: function_call === 'auto' ? ( 'auto' as 'auto' ) : {
+			function_call: (! function_call ) ? 'auto' as 'auto' : {
 				name: function_call as string,
 			}
 		}
