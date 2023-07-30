@@ -87,14 +87,6 @@ export class Zod_GPT {
 		const result = await this.invoke( message, [ structured_response ], 'structured_response' );
 		mind.debug( "Result:", result );
 		return result.arguments;
-		// const result = await this.client.chat( message, {
-		// 	functions: [ structured_response ],
-		// 	function_call: {
-		// 		name: 'structured_response',
-		// 	},
-		// } );
-
-
 	}
 }
 
