@@ -1,88 +1,143 @@
 # 🧠 Zod Mind
 
-TypeScript-first AI chat interface library with OpenAI interface.
-
-This package provides a set of tools for interacting with the OpenAI API using type-safe requests and responses.
+**OpenAI Function library with Zod and TypeScript type safety.** Built to
+facilitate interactions with the OpenAI API in a type-safe manner. This package
+includes a variety of tools for communicating with the OpenAI API using
+type-safe requests and responses.
 
 ## 🚀 Getting Started
 
-### Install
+### Installation
 
-To install the package, run:
+To install the package, run the following command in your terminal:
 
-```
+```bash
 npm install zod-mind
 ```
 
 ### Usage
 
-1. Create a Zod Mind instance
-2. Send a message to OpenAI with your message
+`zodMind()` is the primary function for interacting with the Zod Mind library,
+which provides a structured interface to the OpenAI API.
 
 ```typescript
-// 1. Create a Zod Mind instance
-const client = new GPT_Client({
-	model: "gpt-3.5-turbo",
-	temperature: 0.5,
-});
+// Step 1: Create a Zod Mind instance
+const client = zodMind( {
+	openai: {
+		model: "gpt-3.5-turbo",
+		temperature: 0.5,
+	},
+	// Replace this with your actual API key
+	api_key: "sk-WUBbaLuBbAdUBDUBmEanSIAMInGREaTPAInp1she1PME",
+} );
 
-// 2. Send a message to OpenAI
+// Step 2: Send a message to OpenAI
 async function fetchAnswer() {
 	try {
 		const prompt = "What is the meaning of life?";
-		const result = await client.chat(prompt);
-		console.log(result);
-	} catch (error) {
-		console.error(error);
+		const result = await client.chat( prompt );
+		console.log( result );
+	} catch ( error ) {
+		console.error( error );
 	}
 }
 ```
-The `GPT_Client` class allows for easy setup of OpenAI.
 
-Options:
+You can provide [OpenAI's API options](https://www.npmjs.com/package/opena)
+using the `openai` of the `zodMind()` function.
 
-- `model`: Choose the model to use. Can be either 'gpt-3.5-turbo' or 'gpt-4'.
-- `max_tokens`, `temperature`: Configure how the AI generates responses.
-- See [OpenAI's API documentation](https://www.npmjs.com/package/openai) for more available options.
+Remember to replace `'sk-WUBbaLuBbAdUBDUBmEanSIAMInGREaTPAInp1she1PME'` with
+your actual API key. Never expose this key publicly. It is generally recommended
+to store it in an environment variable or a secure secret storage.
 
+**Environment Variable**
+Zod Mind is going to attempt to read `OPENAI_API_KEY` from your environment if no key is provided to the `zodMind()` function.
 
-## 📖 Documentation
+## Structured Chat
 
-### Default Interface: `GPT_Client`
+Structured chat refers to an organized and formatted way of communicating with
+the AI with a predefined schema to guide AI's responses. It allows you to use a chat interface that
+handles both the instruction and the desired response format.
 
-This is a client for interacting with the OpenAI API.
+The `structured_chat` method takes two parameters:
 
-The `GPT_Client` class accepts an `api_key` as the second parameter to the constructor if the `OPENAI_API_KEY` environment variable is not set. This `api_key` is the secret key you receive from OpenAI when you sign up for API access.
+1. `message`: A string that serves as the instruction to the AI.
+2. `zod_schema`: A Zod schema that defines the format of the AI's response.
 
-```typescript
-const client = new GPT_Client({
-	model: "gpt-3.5-turbo",
-	max_tokens: 900,
-	temperature: 0.5,
-}, 'sk-WUBbaLuBbAdUBDUBmEanSIAMInGREaTPAInp1she1PME');
-```
-
-Please replace `'sk-WUBbaLuBbAdUBDUBmEanSIAMInGREaTPAInp1she1PME'` with your actual API key. Do not expose this key publicly. It's usually a good idea to keep it in an environment variable or some form of secure secret storage.
-
-##### Typical interaction
-
-Typically, you'll use `client.chat()` to send and receive messages to the OpenAPI:
+Note: The schema should always be at the very least a Zod Object, like so:
 
 ```typescript
-const result = await client.chat("What is the answer to life?");
+const results = await client.structured_chat( "What is the meaning of life?", z.object( {
+	answer: z.string()
+} ) );
 ```
 
-##### System Message
-By default, ZodMind comes with a built-in system message. If you'd like to modify the system message, you can do so by using the `set_system_message()` method:
+The method returns a structured response from the AI that matches the given Zod
+schema or it will throw a validation error.
+
+## Invoke Functions
+
+The `invoke` method allows the AI to call a function from a predefined list of
+functions based on a given message.
+
+The `invoke` method takes three parameters:
+
+1. `message`: A string that serves as the instruction to the AI.
+2. `functions`: An object mapping function names to GPT_Function definitions.
+3. `function_call`: An optional parameter that specifies which function to call.
+   If it's not provided, the AI will decide which function to call based on the
+   message.
 
 ```typescript
-client.set_system_message("This is a custom system message.");
+const functions = {
+	"random_number": {
+		description: "Generate a random number between two numbers.",
+		schema: z.object( {
+			from: z.number(),
+			to: z.number()
+		} )
+	},
+	"random_quote": {
+		description: "Generate a random quote.",
+		schema: z.object( {
+			quote: z.string()
+		} )
+	}
+};
+const result = await client.invoke( "Random number between 1 and 42", functions );
+if ( result.name === "random_number" ) {
+	const random_number = random_number_generator( result.arguments.from, result.arguments.to );
+	app.debug( `GPT is calling function "${ result.name }"` )
+		.debug( "With Arguments:", result.arguments )
+		.info( `The random number is ${ random_number }` );
+} else {
+	app.error( `GPT is calling function "${ result.name }"` ).error( "With Arguments:", result.arguments );
+}
 ```
 
-## 📁 Directory Structure
+The `invoke` method returns an object that includes the name of the function
+called and its arguments, formatted according to the appropriate Zod schema.
 
-The main components of the package are organized as follows:
+**Force Function Call**
+If you want to force the AI to call a specific function, you can do so by passing the third argument to the `invoke` method:
 
-- `types.ts`: Defines types and interfaces used in the package.
-- `GPT_Client.ts`: Implements the GPT client for interacting with the OpenAI GPT API.
-- `utils.ts`: Contains utility functions.
+```typescript
+const result = await client.invoke( "Random number between 1 and 42", functions, "random_number" );
+```
+
+#### Simple Chat
+
+Even though this library is designed with type-safety in mind, you can just call
+simple `chat` methods without type safety if you need to.
+
+```typescript
+const result = await client.chat( "What is the answer to life?" );
+```
+
+#### System Message
+If you want to customize the system message, you can do so using the `set_system_message()`
+method:
+
+```typescript
+client.set_system_message( "This is a custom system message." );
+```
