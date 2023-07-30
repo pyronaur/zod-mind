@@ -6,12 +6,16 @@ import { z } from "zod";
 const DEFAULT_SYSTEM_MESSAGE = trim_line_whitespace( `You're a helpful AI Assistant` );
 
 type GPT_Function = {
-	name: string,
 	description: string,
-	parameters: z.ZodObject<any>
+	schema: z.ZodObject<any>
 }
 
-type Function_Call<F extends GPT_Function[]> = F[number]['name'] | 'auto';
+type GPT_Return_Function<T extends Record<string, GPT_Function>> = {
+	[K in keyof T]: {
+		name: K,
+		arguments: z.infer<T[K]['schema']>,
+	}
+}[keyof T]
 
 export class Zod_GPT {
 
@@ -27,14 +31,14 @@ export class Zod_GPT {
 		return result;
 	}
 
-	public async invoke<Fn_List extends GPT_Function[], Fn_Name extends Function_Call<Fn_List>>( message: string, functions: Fn_List, function_call: Fn_Name ) {
+	public async invoke<T extends Record<string, GPT_Function>>( message: string, functions: T, function_call = 'auto' ): Promise<GPT_Return_Function<T>> {
 
 		const additional_config = {
-			functions: functions.map( fn => {
+			functions: Object.entries( functions ).map( ( [ name, fn ] ) => {
 				return {
-					name: fn.name,
+					name: name,
 					description: fn.description,
-					parameters: zod_to_open_api( fn.parameters ),
+					parameters: zod_to_open_api( fn.schema ),
 				}
 			} ),
 			function_call: function_call === 'auto' ? ( 'auto' as 'auto' ) : {
@@ -46,12 +50,12 @@ export class Zod_GPT {
 
 		try {
 			if ( result.type === "function_call" ) {
-				const func_name = result.data.name as Fn_Name extends 'auto' ? Fn_List[number] : Fn_Name;
-				const func = functions.find( fn => fn.name === func_name );
-				if ( !func ) throw new Error( `Could not find function ${ func_name }` );
+				const func_name = result.data.name;
+				if ( !( func_name in functions ) ) throw new Error( `Could not find function ${ func_name }` );
 
-				const func_schema = func.parameters;
-				if ( !func_schema ) throw new Error( `Could not find function ${ func_name }` );
+				const func = functions[ func_name ] as T[ keyof T ];
+				const func_schema = func.schema;
+
 				return {
 					name: func_name,
 					arguments: func_schema.parse( JSON.parse( result.data.arguments ) ),
@@ -79,12 +83,14 @@ export class Zod_GPT {
 	public async structured_chat<T extends z.ZodObject<any>>( message: string, zod_schema: T ): Promise<z.infer<T>> {
 		mind.debug( "Prompt:", message );
 
-		const structured_response = {
-			name: 'structured_response',
-			description: 'Format your response as a function call',
-			parameters: zod_schema,
-		}
-		const result = await this.invoke( message, [ structured_response ], 'structured_response' );
+		const functions = {
+			structured_response: {
+				description: 'Format your response as a function call',
+				schema: zod_schema,
+			}
+		};
+
+		const result = await this.invoke( message, functions );
 		mind.debug( "Result:", result );
 		return result.arguments;
 	}
