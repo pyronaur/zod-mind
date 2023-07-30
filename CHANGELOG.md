@@ -1,5 +1,11 @@
 # zod-mind
 
+## 1.0.0
+
+### Major Changes
+
+- A complete overhaul of zodMind - now based on OpenAI Function Calling API
+
 ## 0.4.0
 
 ### Minor Changes
