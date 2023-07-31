@@ -32,7 +32,7 @@ type GPT_Function = {
 }
 
 export type GPT_Request_Config = {
-	model?: 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4-32k' | `gpt-4-32k-${ number }` | `gpt-3.5-turbo-${ number }`;
+	model?: 'gpt-3.5-turbo' | `gpt-3.5-turbo-${ number | '16k' | `16k-${number}` }` | 'gpt-4' | `gpt-4-${ number | '32k' | `32k-${number}` }`;
 	temperature?: number;
 	top_p?: number;
 	n?: number;
