@@ -20,7 +20,7 @@ type GPT_Return_Function<T extends Record<string, GPT_Function>, K extends keyof
 
 export class Zod_GPT {
 
-	constructor( private readonly client: GPT_Client, system_message: string = DEFAULT_SYSTEM_MESSAGE ) {
+	constructor( public readonly client: GPT_Client, system_message: string = DEFAULT_SYSTEM_MESSAGE ) {
 		this.client.set_system_message( system_message );
 	};
 
