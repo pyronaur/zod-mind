@@ -41,7 +41,9 @@ export type GPT_Request_Config = {
 	max_tokens?: number;
 	presence_penalty?: number;
 	frequency_penalty?: number;
-	logit_bias?: { [ key: string ]: number };
+	logit_bias?: {
+		[ key: string ]: number
+	};
 	user?: string;
 	functions?: GPT_Function[];
 	function_call?: 'auto' | 'none' | {
@@ -84,10 +86,15 @@ export class GPT_Client {
 	};
 
 	public set_system_message( message: string ): void {
-		this.history.push( {
-			role: 'system',
-			content: message,
-		} );
+		const system_message = this.history.find( ( message ) => message.role === 'system' );
+		if ( system_message ) {
+			system_message.content = message
+		} else {
+			this.history.unshift( {
+				role: 'system',
+				content: message,
+			} );
+		}
 	}
 
 
@@ -98,7 +105,7 @@ export class GPT_Client {
 			throw new Error( "No response from GPT" );
 		}
 
-		this.history.push(choice.message);
+		this.history.push( choice.message );
 
 		if ( choice.message.function_call ) {
 			return {
