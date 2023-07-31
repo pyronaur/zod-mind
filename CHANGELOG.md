@@ -1,5 +1,11 @@
 # zod-mind
 
+## 1.0.1
+
+### Patch Changes
+
+- Exposed GPT client, updated models.
+
 ## 1.0.0
 
 ### Major Changes
