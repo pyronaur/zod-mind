@@ -77,6 +77,7 @@ export class GPT_Client {
 
 	private history: Message[] = [];
 	public options: GPT_Request_Config;
+	private is_buffering: boolean = false;
 
 	constructor( options?: undefined | GPT_Request_Config, private api_key?: string ) {
 		this.options = {
@@ -84,6 +85,18 @@ export class GPT_Client {
 			...options,
 		};
 	};
+
+	public buffer( enable: boolean ): GPT_Client {
+		this.is_buffering = enable;
+		return this;
+	}
+
+	public set_agent_message( message: string ): void {
+		this.history.push( {
+			role: 'assistant',
+			content: message,
+		} );
+	}
 
 	public set_system_message( message: string ): void {
 		const system_message = this.history.find( ( message ) => message.role === 'system' );
@@ -99,6 +112,14 @@ export class GPT_Client {
 
 
 	private async send( messages: Message[], additional_config: GPT_Request_Config ): Promise<GPT_Response> {
+		
+		if( this.is_buffering ) {
+			return {
+				type: 'message',
+				data: '',
+			}
+		}
+		
 		const response = await this.completions_request( messages, additional_config );
 		const choice = response.choices[ 0 ];
 		if ( !choice ) {
