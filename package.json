@@ -18,15 +18,15 @@
     "examples/self-healing-process": "LOGTHING_UNMUTE=* node examples/self-healing-process.js"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.26.1",
-    "@types/node": "^20.2.1",
-    "tsup": "^6.6.2",
-    "typescript": "^4.9.5"
+    "@changesets/cli": "^2.26.2",
+    "@types/node": "^20.5.0",
+    "tsup": "^7.2.0",
+    "typescript": "^5.1.6"
   },
   "dependencies": {
-    "logthing": "^1.1.2",
+    "logthing": "^1.1.4",
     "p-retry": "^5.1.2",
-    "zod": "^3.21.4",
+    "zod": "^3.22.1",
     "zod-to-json-schema": "^3.21.4"
   }
 }
