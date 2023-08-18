@@ -1,5 +1,11 @@
 # zod-mind
 
+## 1.0.2
+
+### Patch Changes
+
+- Add buffering
+
 ## 1.0.1
 
 ### Patch Changes
