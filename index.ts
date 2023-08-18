@@ -3,10 +3,11 @@ import { Zod_GPT } from './src/Zod_GPT';
 
 type Zod_Mind_Options = {
 	openai?: GPT_Request_Config,
+	api_key?: string,
 }
 
 export function zodMind(options: Zod_Mind_Options = {}) {
-	const llm = new GPT_Client(options?.openai);
+	const llm = new GPT_Client(options?.openai, options?.api_key);
 	return new Zod_GPT(llm);
 }
 
