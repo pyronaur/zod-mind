@@ -15,9 +15,4 @@ export { GPT_Client } from './src/GPT_Client';
 export { Zod_GPT } from './src/Zod_GPT';
 export { zod_to_open_api } from './src/utils';
 
-// Can't wait for TypeScript 5.1 export * types
-export type {
-	AnyObject,
-	AnyValue,
-	AnyArray,
-} from './src/types';
+export type * from './src/types';
