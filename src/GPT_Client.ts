@@ -188,7 +188,10 @@ export class GPT_Client {
 					case 500:
 						throw new Error( 'Error 500: Server error. Please try again later.' );
 					case 400:
-						throw new Error( 'Error 400: Bad request. Please check your request data.' );
+						throw {
+							code: 400,
+							...JSON.parse(message)
+						};
 					default:
 						throw new Error( `Error ${ res.status }: ${ res.statusText }` );
 				}
