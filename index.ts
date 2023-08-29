@@ -6,12 +6,12 @@ type Zod_Mind_Options = {
 	api_key?: string,
 }
 
-export function zodMind(config: GPT_Model | Zod_Mind_Options = {}, key?: string) {
+export function zodMind(config: GPT_Model | Zod_Mind_Options = "gpt-3.5-turbo", key?: string) {
 	// If config is a string, assume it's a model name.
 	const options = typeof config === 'string' ? { model: config } : config.openai;
 	// Check for api key in second argument or in config object.
 	const api_key = typeof config === 'string' ? key : config.api_key;
-	const llm = new GPT_Client(options, api_key);
+	const llm = new GPT_Client(options || {}, api_key);
 	return new Zod_GPT(llm);
 }
 

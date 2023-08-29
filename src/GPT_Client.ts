@@ -71,21 +71,12 @@ type ChatResponse = {
 	};
 }
 
-const GPT_DEFAULTS: GPT_Request_Config = {
-	model: 'gpt-3.5-turbo',
-}
-
 export class GPT_Client {
 
 	private history: Message[] = [];
-	public options: GPT_Request_Config;
 	private is_buffering: boolean = false;
 
-	constructor( options?: undefined | GPT_Request_Config, private api_key?: string ) {
-		this.options = {
-			...GPT_DEFAULTS,
-			...options,
-		};
+	constructor( private options: GPT_Request_Config, private api_key?: string ) {
 	};
 
 	public buffer( enable: boolean ): GPT_Client {
