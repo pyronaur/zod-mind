@@ -1,5 +1,11 @@
 # zod-mind
 
+## 1.1.0
+
+### Minor Changes
+
+- Improved defaults and added auto-healing.
+
 ## 1.0.2
 
 ### Patch Changes
