@@ -18,6 +18,9 @@ type GPT_Return_Function<T extends Record<string, GPT_Function>, K extends keyof
 export type Zod_GPT_Config = {
 	auto_healing: number,
 	system_message: string,
+	on?: {
+		healing?: (attempt: number, gpt: Zod_GPT, the_plan: string) => void,
+	}
 }
 
 
@@ -162,7 +165,13 @@ export class Zod_GPT {
 				prompt += `\n## Plan\nHow to fix the validation errors in the next run?`;
 				
 				// Let GPT think this through first
-				await this.chat(prompt);
+				const the_plan = await this.chat(prompt);
+
+				if( this.config.on?.healing ) {
+					this.config.on.healing( this.healing_attempt, this , the_plan.data as string );
+				}
+
+
 
 				// Then ask it to attempt invoking the function again.
 				return await this.invoke("Try again using corrected values.", functions, function_call);
