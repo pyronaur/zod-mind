@@ -26,7 +26,7 @@
   "dependencies": {
     "logthing": "^1.1.4",
     "p-retry": "^6.1.0",
-    "zod": "^3.22.4",
+    "zod": "^3.22.2",
     "zod-to-json-schema": "^3.21.4"
   }
 }
