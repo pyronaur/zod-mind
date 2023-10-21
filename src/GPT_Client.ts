@@ -76,7 +76,7 @@ export class GPT_Client {
 	private history: Message[] = [];
 	private is_buffering: boolean = false;
 
-	constructor( private options: GPT_Request_Config, private api_key?: string ) {
+	constructor( public options: GPT_Request_Config, private api_key?: string ) {
 	};
 
 	public buffer( enable: boolean ): GPT_Client {
