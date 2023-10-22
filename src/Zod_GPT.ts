@@ -2,6 +2,7 @@ import { zod_to_open_api } from './utils';
 import { mind } from './logger';
 import { GPT_Client } from "./GPT_Client";
 import { z } from "zod";
+import dirty_json from 'dirty-json';
 
 type GPT_Function = {
 	description: string,
@@ -116,6 +117,7 @@ export class Zod_GPT {
 		const result = await this.client.chat(message, additional_config);
 
 		try {
+			
 			if (result.type === "function_call") {
 				const func_name = result.data.name;
 				if (!(func_name in functions)) throw new Error(`Could not find function ${func_name}`);
@@ -124,7 +126,7 @@ export class Zod_GPT {
 				const func_schema = func!.schema;
 
 
-				const args = func_schema.parse(JSON.parse(result.data.arguments));
+				const args = func_schema.parse(dirty_json.parse(result.data.arguments));
 				// Reset the attempt counter on success.
 				this.healing_attempt = 0;
 
